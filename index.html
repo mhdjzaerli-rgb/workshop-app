@@ -18,8 +18,17 @@ body{
   margin:0;
   transition:.3s;
 }
-.app{padding:15px}
-h2{text-align:center}
+.app{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px;
+}
+
+.main{
+  flex: 1 1 600px;
+  min-width: 300px;
+}
 
 select,input,button{
   width:100%;
@@ -27,14 +36,16 @@ select,input,button{
   margin:5px 0;
 }
 
-button.green{background:#2ed573;color:white;border:none}
-button.blue{background:#3742fa;color:white;border:none}
-button.gray{background:#57606f;color:white;border:none}
+button.green{background:#2ed573;color:white;border:none; min-height:40px; font-size:14px;}
+button.blue{background:#3742fa;color:white;border:none; min-height:40px; font-size:14px;}
+button.gray{background:#57606f;color:white;border:none; min-height:40px; font-size:14px;}
 
 table{
   width:100%;
   border-collapse:collapse;
   margin-top:10px;
+  overflow-x: auto;
+  display: block;
 }
 th,td{
   border:1px solid #ccc;
@@ -64,10 +75,26 @@ body.dark input,body.dark select{
 }
 body.dark .report{background:#333}
 
+/* Footer / أزرار إضافات ووضع ليلي */
 .footer{
+  width: 100%;
   margin-top:15px;
   padding-top:10px;
   border-top:2px dashed #ccc;
+}
+
+/* Responsive للهواتف */
+@media screen and (max-width:768px){
+  .app{
+    flex-direction: column;
+  }
+  select,input,button{
+    width:100%;
+  }
+  table th, table td{
+    font-size: 12px;
+    padding:4px;
+  }
 }
 </style>
 </head>
@@ -149,6 +176,7 @@ function render(){
   fill("employee",employees);
   fill("model",models);
   fill("color",colors);
+
   table.innerHTML="";
   records.forEach((r,i)=>{
     table.innerHTML+=`
@@ -220,7 +248,6 @@ function exportExcel(){
   XLSX.writeFile(wb,"workshop.xlsx");
 }
 
-/* الوضع الليلي */
 function toggleDark(){
   document.body.classList.toggle("dark");
   localStorage.setItem("dark",document.body.classList.contains("dark"));
